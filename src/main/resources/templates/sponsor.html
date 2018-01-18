@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymleaf-extras-springsecurity4">
+<head>
+      <meta charset="UTF-8" />
+      <title>Sponsor || Manager</title>
+      <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"
+                                               th:href="@{/css/bootstrap.min.css}" />
+            <link rel="stylesheet" type="text/css" href="../static/css/myStyle.css"
+                                               th:href="@{/css/myStyle.css}" />
+</head>
+<body>
+     <header>
+	          <div class="navbar navbar-inverse">
+		           <div class="container-fluid">
+			            <ul class="nav navbar-nav">
+				            <li><a th:href="@{/player}">Player-Team</a></li>				           
+			            </ul>
+			            <ul class="nav  navbar-nav navbar-right">
+				            <li><form th:action="@{/logout}" method="post">
+                                      <input type="submit" value="Log out"/>
+                                </form></li>
+			            </ul>
+		           </div>
+	          </div>
+      </header>
+      <div class="col-md-5 spacer40">
+           <div class = "panel panel-default col-md-8 " sec:authorize="hasRole('ROLE_ADMIN')">
+                      <div class="panel-heading">Ajouter un Sponsor : </div>
+                           <div class="panel-body">
+                                <form th:action="@{ajouterSponsor}" method="post">
+                                     <div class="form-group">
+                                          <label class="control-label">Libelle : </label>
+                                          <input type="text" name="libelle" class="form-control" />
+                                     </div>
+                                     <div class="form-group">
+                                          <label class="control-label">Marque : </label>
+                                          <input type="text" name="marque" class="form-control" />                      
+                                     </div>
+                                      <div class="form-group">
+                                          <label class="control-label">Team : </label>
+                                          <select  name="b" class="form-control">
+                                            <option  th:each="e:${notChoosin}" th:value="${e.idPlayer}" th:text="${e.nomPlayer}"></option>
+                                          
+                                          </select>                   
+                                     </div>
+                                     <div>
+                                          <button type="submit" class="btn btn-primary">Ajouter</button>
+                                     </div>
+                                </form>
+                           </div>
+                           <hr/>
+                           <div class="panel-heading">Ajouter un Manager : </div>
+                           <div class="panel-body">
+                                <form th:action="@{ajouterManager}" method="post">
+                                     <div class="form-group">
+                                          <label class="control-label">Nom : </label>
+                                          <input type="text" name="nom" class="form-control" />
+                                     </div>
+                                     
+                                      <div class="form-group">
+                                          <label class="control-label">Player :</label>
+                                          <select class="form-control"   >
+                                            <option  th:each="z:${plays}" th:value="${z.idPlayer}" th:text="${z.nomPlayer}"></option>
+                                          
+                                          </select>                   
+                                     </div>
+                                     <div>
+                                          <button type="submit" class="btn btn-primary">Ajouter</button>
+                                     </div>
+                                </form>
+                           </div>
+                 </div>
+
+</div>
+      
+      
+      
+      <div class="col-md-7 spacer40">
+    
+                 <h1>List des Sponsors :</h1>
+           
+            <table class="table table-striped">
+                   <thead>
+                          <tr>
+                              <th>Numero</th>
+                               <th>Libelle</th>
+                               <th>Marque</th>
+                               <th>Player</th>
+                               <th>Team</th>
+                          </tr>
+                   </thead>
+                   <tbody>
+                           <tr th:each="t:${sponsors}">
+                             <td th:text="${t.idSponsor}"></td>
+                             <td th:text="${t.libelle}"></td>
+                             <td th:text="${t.marque}"></td>
+                             <td th:text="${t.player.nomPlayer}"></td>
+                             <td th:text="${t.player.team.nomTeam}"></td>
+                         </tr>
+                   </tbody>
+            </table>
+          
+          <hr/>
+          <h1>List des Managers : </h1>
+           
+            <table class="table table-striped">
+                   <thead>
+                          <tr>
+                               <th>Numero</th>
+                               <th>Nom</th>
+                               <th>Player</th>                              
+                          </tr>
+                   </thead>
+                   <tbody>
+                            <tr th:each="m:${managers}">
+                             <td th:text="${m.idManager}"></td>
+                             <td th:text="${m.nomManager}"></td>
+                             <td  th:text="${m.players}"></td>
+                                                       
+                         </tr>
+                   </tbody>
+            </table>
+          
+            
+</div>
+</body>
+</html>
